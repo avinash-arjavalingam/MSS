@@ -65,8 +65,8 @@ class DAGInstance:
 		new_dag_instance = DAGInstance(self.dag)
 		for id_one, res in self.id_res_map:
 			new_dag_instance.id_res_map[id_one] = res
-		for id_two, max_ in self.id_max_map:
-			new_dag_instance.id_max_map[id_two] = max_
+		for id_two, max_prev in self.id_max_map:
+			new_dag_instance.id_max_map[id_two] = max_prev
 		new_dag_instance.running_cost = self.running_cost
 		new_dag_instance.running_time = self.running_time
 		return new_dag_instance
@@ -109,3 +109,19 @@ def gen_dag_instances(dag):
 		instance_list = new_instance_list
 
 	return instance_list
+
+
+def select_pareto_instances(instance_list):
+	pareto_list = []
+
+	for instance in instance_list:
+		pareto_add = True
+		for comp_instance in instance_list:
+			if not (instance is comp_instance):
+				if (comp_instance.running_time <= instance.running_time) and (comp_instance.running_cost <= instance.running_cost):
+					pareto_add = False
+					break
+		if pareto_add:
+			pareto_list.append(instance)
+
+	return pareto_list
