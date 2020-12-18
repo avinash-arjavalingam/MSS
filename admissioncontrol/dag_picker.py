@@ -78,11 +78,11 @@ class DAGSelector:
 				if done:
 					break
 			if len(res_nodes) == 0:
-				cluster.nodes_by_res = sorted(updated_nodes, key=lambda x: x.memory)
+				cluster.nodes_by_res[res] = sorted(updated_nodes, key=lambda x: x.memory)
 				return {}
 			else:
 				res_nodes.extend(updated_nodes)
-				cluster.nodes_by_res = sorted(res_nodes, key=lambda x: x.memory)
+				cluster.nodes_by_res[res] = sorted(res_nodes, key=lambda x: x.memory)
 
 		return function_place_map
 
